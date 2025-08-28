@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Đăng nhập — Notepat</title>
+  <style>
+    :root{--bg:#0b0b0b;--card:#121212;--accent:#D4AF37;--muted:#bdbdbd}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Helvetica,Arial;background:linear-gradient(180deg,#070707, #0f1112);color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+    .card{width:100%;max-width:420px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.06);padding:28px;border-radius:16px;box-shadow:0 8px 30px rgba(2,6,23,0.6)}
+    h1{margin:0 0 6px;font-size:20px;letter-spacing:0.4px}
+    p.lead{margin:0 0 18px;color:var(--muted);font-size:13px}
+    label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+    input[type=text],input[type=password]{width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:#fff;font-size:14px}
+    .password-wrapper{position:relative}
+    .toggle-password{position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:14px;color:var(--muted)}
+    .actions{display:flex;gap:10px;align-items:center;margin-top:18px}
+    .btn{flex:1;padding:11px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600}
+    .btn-primary{background:var(--accent);color:#07110a}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    .note{font-size:12px;color:var(--muted);margin-top:12px}
+    .error{margin-top:12px;color:#ff8a8a;font-size:13px;display:none}
+    .hint{font-size:12px;color:rgba(255,255,255,0.45);margin-top:10px}
+    .small-link{color:var(--accent);text-decoration:none;font-weight:600}
+    .center{text-align:center}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Đăng nhập cá nhân — Notepat</h1>
+    <p class="lead">Đăng nhập để truy cập trang quản trị riêng. Liên kết sẽ dẫn đến <strong>hieuno1.html</strong> khi thông tin đúng.</p>
+
+    <form id="loginForm" autocomplete="off">
+      <div>
+        <label for="username">Tên đăng nhập</label>
+        <input id="username" name="username" type="text" placeholder="Nhập tên" required />
+      </div>
+
+      <div style="margin-top:12px;" class="password-wrapper">
+        <label for="password">Mật khẩu</label>
+        <input id="password" name="password" type="password" placeholder="Nhập mật khẩu" required />
+        <span id="togglePassword" class="toggle-password">👁</span>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">Đăng nhập</button>
+        <button type="button" id="cancelBtn" class="btn btn-ghost">Huỷ</button>
+      </div>
+
+      <div id="error" class="error">Sai tên đăng nhập hoặc mật khẩu.</div>
+      <div class="note">Gợi ý: tên đăng nhập <strong>admin</strong> — mật khẩu <strong>123456</strong></div>
+      <div class="hint center">Bạn có thể chỉnh tệp <code>notepat_login.html</code> để đổi thông tin.</div>
+    </form>
+  </main>
+
+  <script>
+    // Client-side check — dùng cho demo. Không dùng cho production.
+    const LOGIN_USER = 'admin';
+    const LOGIN_PASS = '123456';
+
+    const form = document.getElementById('loginForm');
+    const err = document.getElementById('error');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const toggleBtn = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      err.style.display = 'none';
+      const u = document.getElementById('username').value.trim();
+      const p = passwordInput.value.trim();
+
+      if(u === LOGIN_USER && p === LOGIN_PASS){
+        window.location.href = 'hieuno1.html';
+      } else {
+        err.style.display = 'block';
+      }
+    });
+
+    cancelBtn.addEventListener('click', () => {
+      document.getElementById('username').value = '';
+      passwordInput.value = '';
+      err.style.display = 'none';
+    });
+
+    toggleBtn.addEventListener('click', () => {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      toggleBtn.textContent = type === 'password' ? '👁' : '🙈';
+    });
+  </script>
+</body>
+</html>
